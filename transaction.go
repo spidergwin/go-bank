@@ -1,0 +1,35 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+	"time"
+)
+
+type Transaction struct {
+	Type   string
+	Status string
+	Amount int
+	Time   time.Time
+}
+
+const (
+	DepositTransaction    = "deposit"
+	WithdrawalTransaction = "withdrawal"
+	Pending               = "pending"
+	Success               = "successful"
+	Failed                = "failed"
+)
+
+func ParseTrxMsg(trx Transaction) string {
+	var trxType string
+
+	if trx.Type == DepositTransaction {
+		trxType = strings.Replace(trx.Type, "d", "D", 1)
+	} else {
+		trxType = strings.Replace(trx.Type, "w", "W", 1)
+	}
+
+	trxMessage := fmt.Sprintf("%s %s - $%v || %s", trxType, trx.Status, trx.Amount, trx.Time.Format(time.RFC1123))
+	return trxMessage
+}

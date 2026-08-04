@@ -3,12 +3,13 @@ package main
 import (
 	"errors"
 	"fmt"
+	"time"
 )
 
 type BankAccount struct {
 	Owner        string
 	Balance      int
-	Transactions []string
+	Transactions []Transaction
 }
 
 func (b *BankAccount) Deposit(amount int) error {
@@ -16,9 +17,9 @@ func (b *BankAccount) Deposit(amount int) error {
 		return errors.New("invalid amount")
 	}
 	b.Balance += amount
-	message := fmt.Sprintf("Deposit successful! $%v", amount)
-	b.Transactions = append(b.Transactions, message)
 
+	// Save Transaction
+	b.SaveTrx(DepositTransaction, Success, amount)
 	return nil
 }
 
@@ -31,9 +32,9 @@ func (b *BankAccount) Withdraw(amount int) error {
 		return errors.New("insufficient funds")
 	}
 	b.Balance -= amount
-	message := fmt.Sprintf("Withdrawal successful! $%v", amount)
-	b.Transactions = append(b.Transactions, message)
 
+	// Save Transaction
+	b.SaveTrx(WithdrawalTransaction, Success, amount)
 	return nil
 }
 
@@ -51,8 +52,19 @@ func (b *BankAccount) ShowTransactions() {
 	} else {
 		fmt.Printf("\nTransaction History: \n")
 		for _, transaction := range b.Transactions {
-			fmt.Printf("%v\n", transaction)
+			fmt.Printf("%v\n", ParseTrxMsg(transaction))
 		}
 
 	}
+}
+
+func (b *BankAccount) SaveTrx(trxType string, status string, amt int) {
+	transaction := Transaction{
+		Type:   trxType,
+		Status: status,
+		Amount: amt,
+		Time:   time.Now(),
+	}
+
+	b.Transactions = append(b.Transactions, transaction)
 }

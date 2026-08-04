@@ -32,7 +32,7 @@ func CreateAccount() {
 	Accounts[key] = &BankAccount{
 		Owner:        accountName,
 		Balance:      0,
-		Transactions: []string{},
+		Transactions: []Transaction{},
 	}
 
 	SaveAccounts() // Save accounts to JSON file
