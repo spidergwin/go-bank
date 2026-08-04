@@ -35,6 +35,8 @@ func CreateAccount() {
 		Transactions: []string{},
 	}
 
+	SaveAccounts() // Save accounts to JSON file
+
 	CurrentAccount = Accounts[key]
 
 	fmt.Println("")
@@ -42,7 +44,7 @@ func CreateAccount() {
 }
 
 func SwitchAccount() {
-	fmt.Println("Switching Account:")
+	fmt.Println("Sign-in to Account:")
 	fmt.Printf("\t")
 
 	//--- Get Account Name
@@ -58,7 +60,6 @@ func SwitchAccount() {
 
 	if Accounts[accountName] != nil {
 		CurrentAccount = Accounts[accountName]
-		fmt.Println("Account switched successfully!!!")
 	} else {
 		fmt.Println("Account not found! Please create a new account!!!")
 	}
@@ -78,6 +79,8 @@ func HandleDeposit(account *BankAccount) {
 	if err := account.Deposit(amount); err != nil {
 		fmt.Println(err)
 	} else {
+
+		SaveAccounts() // Save accounts to JSON file
 		message := fmt.Sprintf("Deposit successful! $%v\n", amount)
 		fmt.Println(message)
 	}
@@ -112,6 +115,8 @@ func HandleWithdrawal(account *BankAccount) {
 			fmt.Println(err)
 			return
 		} else {
+
+			SaveAccounts() // Save accounts to JSON file
 			message := fmt.Sprintf("Withdrawal successful! $%v", amount)
 			fmt.Println(message)
 		}

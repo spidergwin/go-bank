@@ -1,0 +1,20 @@
+{
+  "gwin": {
+    "Owner": "gwin",
+    "Balance": 51999800,
+    "Transactions": [
+      "Deposit successful! $50000000",
+      "Deposit successful! $2000000",
+      "Withdrawal successful! $200"
+    ]
+  },
+  "joseph": {
+    "Owner": "joseph",
+    "Balance": 985200,
+    "Transactions": [
+      "Deposit successful! $200",
+      "Deposit successful! $1000000",
+      "Withdrawal successful! $15000"
+    ]
+  }
+}

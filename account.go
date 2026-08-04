@@ -51,7 +51,7 @@ func (b *BankAccount) ShowTransactions() {
 	} else {
 		fmt.Printf("\nTransaction History: \n")
 		for _, transaction := range b.Transactions {
-			fmt.Printf("%v", transaction)
+			fmt.Printf("%v\n", transaction)
 		}
 
 	}

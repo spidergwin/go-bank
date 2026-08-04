@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -12,6 +13,16 @@ var (
 
 func main() {
 	welcome() // Display the welcome message including the user name.
+
+	if exists, err := FileExists("accounts.json"); exists {
+		LoadAccounts("accounts.json")
+		SwitchAccount()
+
+	} else if err != nil {
+		log.Fatalln(err)
+	} else {
+		CreateAccount()
+	}
 
 	for {
 		if CurrentAccount == nil {
@@ -48,21 +59,21 @@ func main() {
 		case 5:
 			if CurrentAccount == nil {
 				fmt.Println("No Account Selected! please select an account or create a new account!")
-				return
+				continue
 			}
 
 			CurrentAccount.PrintBalance()
 		case 6:
 			if CurrentAccount == nil {
 				fmt.Println("No Account Selected! please select an account or create a new account!")
-				return
+				continue
 			}
 
 			CurrentAccount.PrintInfo()
 		case 7:
 			if CurrentAccount == nil {
 				fmt.Println("No Account Selected! please select an account or create a new account!")
-				return
+				continue
 			}
 
 			CurrentAccount.ShowTransactions()
