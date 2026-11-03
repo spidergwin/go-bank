@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "Go Bank API",
+    "_postman_id": "2d1d1d1d-1234-5678-9012-abcdefabcdef",
+    "description": "Collection for testing the Go Bank HTTP API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "account",
+      "value": "joseph"
+    }
+  ],
+  "item": [
+    {
+      "name": "Welcome",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/"
+      }
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "About",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/about"
+      }
+    },
+    {
+      "name": "Create Account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"owner\": \"Joseph\"\n}"
+        },
+        "url": "{{baseUrl}}/accounts"
+      }
+    },
+    {
+      "name": "Get Account",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/accounts/{{account}}"
+      }
+    },
+    {
+      "name": "Deposit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 5000\n}"
+        },
+        "url": "{{baseUrl}}/accounts/{{account}}/deposit"
+      }
+    },
+    {
+      "name": "Withdraw",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 1000\n}"
+        },
+        "url": "{{baseUrl}}/accounts/{{account}}/withdraw"
+      }
+    },
+    {
+      "name": "Transactions",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/accounts/{{account}}/transactions"
+      }
+    }
+  ]
+}

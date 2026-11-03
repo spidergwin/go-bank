@@ -18,16 +18,18 @@ func LoadAccounts(source string) {
 	}
 }
 
-func SaveAccounts() {
+func SaveAccounts() error {
 	AccountsJSON, err := json.MarshalIndent(Accounts, "", "  ")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	err = os.WriteFile("accounts.json", AccountsJSON, 0o644)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
+
+	return nil
 }
 
 func FileExists(path string) (bool, error) {

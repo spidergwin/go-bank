@@ -11,6 +11,7 @@ type Transaction struct {
 	Status string
 	Amount int
 	Time   time.Time
+	Err    error
 }
 
 const (
@@ -30,6 +31,11 @@ func ParseTrxMsg(trx Transaction) string {
 		trxType = strings.Replace(trx.Type, "w", "W", 1)
 	}
 
-	trxMessage := fmt.Sprintf("%s %s - $%v || %s", trxType, trx.Status, trx.Amount, trx.Time.Format(time.RFC1123))
+	var trxErr string
+	if trx.Err != nil {
+		trxErr = fmt.Sprintf("%s", trx.Err)
+	}
+
+	trxMessage := fmt.Sprintf("%s %s - $%v %s || %s ", trxType, trx.Status, trx.Amount, trxErr, trx.Time.Format(time.RFC1123))
 	return trxMessage
 }

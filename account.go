@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -14,55 +13,42 @@ type BankAccount struct {
 
 func (b *BankAccount) Deposit(amount int) error {
 	if amount <= 0 {
-		return errors.New("invalid amount")
+		err := errors.New("invalid amount")
+		b.SaveTrx(DepositTransaction, Failed, amount, err)
+		return err
 	}
 	b.Balance += amount
 
 	// Save Transaction
-	b.SaveTrx(DepositTransaction, Success, amount)
+	b.SaveTrx(DepositTransaction, Success, amount, nil)
 	return nil
 }
 
 func (b *BankAccount) Withdraw(amount int) error {
 	if amount <= 0 {
-		return errors.New("invalid amount")
+		err := errors.New("invalid amount")
+		b.SaveTrx(WithdrawalTransaction, Failed, amount, err)
+		return err
 	}
 
 	if b.Balance < amount {
-		return errors.New("insufficient funds")
+		err := errors.New("insufficient funds")
+		b.SaveTrx(WithdrawalTransaction, Failed, amount, err)
+		return err
 	}
 	b.Balance -= amount
 
 	// Save Transaction
-	b.SaveTrx(WithdrawalTransaction, Success, amount)
+	b.SaveTrx(WithdrawalTransaction, Success, amount, nil)
 	return nil
 }
 
-func (b *BankAccount) PrintInfo() {
-	fmt.Printf("Account Name: %v\nBalance: $%v\n", b.Owner, b.Balance)
-}
-
-func (b *BankAccount) PrintBalance() {
-	fmt.Printf("Account Balance: $%v\n", b.Balance)
-}
-
-func (b *BankAccount) ShowTransactions() {
-	if len(b.Transactions) == 0 {
-		fmt.Printf("\nNo Transactions Recorded!\n")
-	} else {
-		fmt.Printf("\nTransaction History: \n")
-		for _, transaction := range b.Transactions {
-			fmt.Printf("%v\n", ParseTrxMsg(transaction))
-		}
-
-	}
-}
-
-func (b *BankAccount) SaveTrx(trxType string, status string, amt int) {
+func (b *BankAccount) SaveTrx(trxType string, status string, amt int, err error) {
 	transaction := Transaction{
 		Type:   trxType,
 		Status: status,
 		Amount: amt,
+		Err:    err,
 		Time:   time.Now(),
 	}
 
